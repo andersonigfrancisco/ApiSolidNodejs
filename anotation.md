@@ -8,6 +8,7 @@
 
 
 ## Usando o Prisma ORM link (https://www.prisma.io/docs/getting-started/quickstart)
-
+o. npx prisma studio
 1. npx prisma init --datasource-provider sqlite
 2. npx prisma generate
+3. npx prisma migrate dev
