@@ -12,3 +12,8 @@ o. npx prisma studio
 1. npx prisma init --datasource-provider sqlite
 2. npx prisma generate
 3. npx prisma migrate dev
+
+## Command GutHub
+1.git config --list
+2.git config --global core.editor code
+3.git config --global --edit
