@@ -10,8 +10,8 @@
 ## Usando o Prisma ORM link (https://www.prisma.io/docs/getting-started/quickstart)
 o. npx prisma studio
 1. npx prisma init --datasource-provider sqlite
-2. npx prisma generate
-3. npx prisma migrate dev
+2. npx prisma generate =>gerar tipagem dos model
+3. npx prisma migrate dev => verficar a alterção do bando de dados e actualizar
 
 ## Command GutHub
 1.git config --list
