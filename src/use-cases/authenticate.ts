@@ -14,7 +14,7 @@ interface AuthenticateUseCaseResponse {
   user: User
 }
 
-class AuthenticateUseCase {
+export class AuthenticateUseCase {
 
   constructor(private usersRepository: UsersRepository) { }
 
