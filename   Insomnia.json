@@ -1,5 +1,11 @@
 {
-  "name": "",
-  "email": "",
-  "password": ""
+  "users": {
+    "name": "",
+    "email": "",
+    "password": ""
+  },
+  "session": {
+    "email": "",
+    "password": ""
+  }
 }

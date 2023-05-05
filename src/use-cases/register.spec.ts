@@ -1,18 +1,23 @@
-import { expect, describe, it } from 'vitest'
+import { expect, describe, it, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
 
 import { RegisterUseCase } from './register'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
+let usersRepository: InMemoryUsersRepository
+let sut: RegisterUseCase
+
 describe('Registrar Caso de Uso', () => {
+
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository()
+    sut = new RegisterUseCase(usersRepository)
+  })
 
   it('deve ser capaz de registrar', async () => {
 
-    const usersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(usersRepository)
-
-    const { user } = await registerUseCase.executar({
+    const { user } = await sut.executar({
       name: 'nometeste',
       email: 'nometeste@gmail.com',
       password: 'nometeste123'
@@ -22,10 +27,7 @@ describe('Registrar Caso de Uso', () => {
 
   it('deve ser capaz de verificar hash a senha do usuário no registro', async () => {
 
-    const usersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(usersRepository)
-
-    const { user } = await registerUseCase.executar({
+    const { user } = await sut.executar({
       name: 'nometeste',
       email: 'nometeste@gmail.com',
       password: 'nometeste123'
@@ -40,16 +42,13 @@ describe('Registrar Caso de Uso', () => {
 
   it('Não deve ser capaz de se registrar com o mesmo e-mail duas vezes', async () => {
 
-    const usersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(usersRepository)
-
-    const { user } = await registerUseCase.executar({
+    const { user } = await sut.executar({
       name: 'nometeste',
       email: 'nometeste@gmail.com',
       password: 'nometeste123'
     })
 
-    await expect(() => registerUseCase.executar({
+    await expect(() => sut.executar({
       name: 'nometeste',
       email: 'nometeste@gmail.com',
       password: 'nometeste123'
