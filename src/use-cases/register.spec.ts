@@ -2,27 +2,28 @@ import { expect, describe, it } from 'vitest'
 import { compare } from 'bcryptjs'
 
 import { RegisterUseCase } from './register'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
+describe('Registrar Caso de Uso', () => {
 
-describe('Register Use Case', () => {
-  it('should hash user password upon registration', async () => {
+  it('deve ser capaz de registrar', async () => {
 
-    const registerUseCase = new RegisterUseCase({
+    const usersRepository = new InMemoryUsersRepository()
+    const registerUseCase = new RegisterUseCase(usersRepository)
 
-      async findByEmail(email) {
-        return null;
-      },
-
-      async create(data) {
-        return {
-          id: 'user-1',
-          name: data.name,
-          email: data.email,
-          password_hash: data.password_hash,
-          created_at: new Date(),
-        }
-      },
+    const { user } = await registerUseCase.executar({
+      name: 'nometeste',
+      email: 'nometeste@gmail.com',
+      password: 'nometeste123'
     })
+    expect(user.id).toEqual(expect.any(String))
+  })
+
+  it('deve ser capaz de verificar hash a senha do usuário no registro', async () => {
+
+    const usersRepository = new InMemoryUsersRepository()
+    const registerUseCase = new RegisterUseCase(usersRepository)
 
     const { user } = await registerUseCase.executar({
       name: 'nometeste',
@@ -36,4 +37,24 @@ describe('Register Use Case', () => {
     )
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
+
+  it('Não deve ser capaz de se registrar com o mesmo e-mail duas vezes', async () => {
+
+    const usersRepository = new InMemoryUsersRepository()
+    const registerUseCase = new RegisterUseCase(usersRepository)
+
+    const { user } = await registerUseCase.executar({
+      name: 'nometeste',
+      email: 'nometeste@gmail.com',
+      password: 'nometeste123'
+    })
+
+    await expect(() => registerUseCase.executar({
+      name: 'nometeste',
+      email: 'nometeste@gmail.com',
+      password: 'nometeste123'
+    }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
 })
