@@ -7,14 +7,14 @@ import { expect, describe, it, beforeEach } from 'vitest'
 let usersRepository: InMemoryUsersRepository
 let sut: GetUserProfileUseCase
 
-describe('Get User Profile Use Case', () => {
+describe('Obter caso de uso de perfil de usuário', () => {
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     sut = new GetUserProfileUseCase(usersRepository)
   })
 
-  it('should be able to get user profile', async () => {
+  it('deve ser capaz de obter o perfil do usuário', async () => {
     const createdUser = await usersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -25,11 +25,11 @@ describe('Get User Profile Use Case', () => {
       userId: createdUser.id,
     })
 
-    expect(user.name).toEqual('John Doe')
+    await expect(user.name).toEqual('John Doe')
   })
 
-  it('should not be able to get user profile with wrong id', async () => {
-    expect(() =>
+  it('não deve ser capaz de obter o perfil do usuário com id errado', async () => {
+    await expect(() =>
       sut.execute({
         userId: 'non-existing-id',
       }),

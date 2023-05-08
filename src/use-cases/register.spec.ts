@@ -22,7 +22,7 @@ describe('Registrar Caso de Uso', () => {
       email: 'nometeste@gmail.com',
       password: 'nometeste123'
     })
-    expect(user.id).toEqual(expect.any(String))
+    await expect(user.id).toEqual(expect.any(String))
   })
 
   it('deve ser capaz de verificar hash a senha do usuário no registro', async () => {
@@ -37,7 +37,7 @@ describe('Registrar Caso de Uso', () => {
       'nometeste123',
       user.password_hash
     )
-    expect(isPasswordCorrectlyHashed).toBe(true)
+    await expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
   it('Não deve ser capaz de se registrar com o mesmo e-mail duas vezes', async () => {
