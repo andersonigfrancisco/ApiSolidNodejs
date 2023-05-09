@@ -2,6 +2,9 @@
 
 GymPass style app.
 
+https://dbdiagram.io/d
+https://prisma-erd.simonknott.de/
+
 ## RFs (Requisitos funcionais)
 
 - [ ] Deve ser possível se cadastrar;

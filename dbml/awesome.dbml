@@ -1,0 +1,42 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  name String [not null]
+  email String [unique, not null]
+  password_hash String [not null]
+  role Role [not null, default: 'MEMBER']
+  created_at DateTime [default: `now()`, not null]
+  checkIns check_ins [not null]
+}
+
+Table check_ins {
+  id String [pk]
+  created_at DateTime [default: `now()`, not null]
+  validated_at DateTime
+  user users [not null]
+  user_id String [not null]
+  gym gyms [not null]
+  gym_id String [not null]
+}
+
+Table gyms {
+  id String [pk]
+  title String [not null]
+  description String
+  phone String
+  latitude Decimal [not null]
+  longitude Decimal [not null]
+  checkIns check_ins [not null]
+}
+
+Enum Role {
+  ADMIN
+  MEMBER
+}
+
+Ref: check_ins.user_id > users.id
+
+Ref: check_ins.gym_id > gyms.id
