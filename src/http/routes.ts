@@ -6,7 +6,7 @@ import { profile } from "./controllers/profile";
 
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post('/users', register)
+  app.post('/users', { onRequest: [verifyJwt] }, register)
   app.post('/session', authenticate)
 
   app.get('/profile', { onRequest: [verifyJwt] }, profile)

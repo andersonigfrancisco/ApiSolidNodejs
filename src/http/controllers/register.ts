@@ -18,6 +18,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     const registerUseCase = makeRegisterUseCase()
 
+    console.log(request.user.sub)
+
     await registerUseCase.executar({
       name,
       email,
